@@ -400,9 +400,10 @@ function! s:CtConsoleDiff( fname, diff_version )
     echohl Error
     echo "Unable to use console diff function.  Requires +diff compiled in"
     echohl None
-
     return 1
   endif
+  
+  execute "norm \<C-w>o"
 
   " Determine full path name of the clearcase element:
   if a:fname == ""
@@ -526,6 +527,14 @@ function! s:CtConsoleDiff( fname, diff_version )
   " on Unix.
   let l:fname_escaped = escape(l:fname, ' ')
   exe l:splittype . l:fname_escaped . '@@' . l:cmp_to_ver
+  
+  execute "norm \<C-w>x"
+  let s:fileType = &filetype
+  
+  execute "norm \<C-w>x"
+  execute "set filetype=".s:fileType
+  
+  execute "norm \<C-w>l"
 
   return 0
 endfunction
